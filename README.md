@@ -1,151 +1,86 @@
-# Ruby on Rails Product API
+# 내 화장품을 찾아줘!
 
-이 프로젝트는 Ruby on Rails를 사용하여 구현된 Product(상품) 관리 API입니다.
+## 개요
 
-## 📋 Product 모델 스키마
+내 피부에 잘맞았던 화장품이 어느날 사라지거나 성분이 바뀐 경험이 있으신가요?
 
-Product 모델은 다음과 같은 필드를 가지고 있습니다:
+**"내 화장품을 찾아줘!"**는 사용자의 피부 상태와 고민사항을 분석하여 최적의 화장품을 추천해주는 AI 기반 서비스입니다.
 
-- `id` (Primary Key)
-- `name` (String, 필수값)
-- `description` (String)
-- `price` (Integer)
-- `created_at` (DateTime)
-- `updated_at` (DateTime)
+### 🎯 서비스 목적
 
-## 🚀 API 엔드포인트
+- **개인 맞춤형 화장품 추천**: 피부타입, 고민사항, 연령대를 고려한 맞춤 추천
+- **성분 기반 분석**: 화장품 성분의 효과와 안전성을 데이터로 분석
+- **사용자 경험 개선**: 복잡한 화장품 선택 과정을 간단하고 정확하게
 
-### 1. 상품 목록 조회
+### 💡 주요 특징
 
-```
-GET /products
-```
+- **AI 기반 추천**: 사용자 데이터와 화장품 성분 데이터를 매칭하여 최적의 제품 추천
+- **실시간 분석**: 피부 상태 변화에 따른 동적 추천 시스템
+- **신뢰성 있는 데이터**: 검증된 화장품 성분 정보와 사용자 리뷰 기반
+- **MCP 서버 연동**: OpenAI와 연동하여 자연어 기반 상담 서비스 제공
 
-**응답 예시:**
+## 🚀 화장품 추천 MCP 서버 기획 (1주일 개발)
 
-```json
-[
-  {
-    "id": 1,
-    "name": "상품명",
-    "description": "상품 설명",
-    "price": 10000,
-    "created_at": "2025-07-11T14:56:38.000Z",
-    "updated_at": "2025-07-11T14:56:38.000Z"
-  }
-]
-```
+### 📋 핵심 기능
 
-### 2. 특정 상품 조회
+1. **사용자 피부 상태 입력** (간단한 설문)
+2. **화장품 성분 데이터베이스** (기본 성분 정보)
+3. **추천 알고리즘** (단순 매칭 로직)
+4. **MCP 서버 API** (RESTful API)
 
-```
-GET /products/:id
-```
+### 🛠 최소 기술 스택
 
-**응답 예시:**
+- **Backend**: Ruby on Rails (기존 활용)
+- **Database**: SQLite (개발용)
+- **API**: RESTful JSON API (MCP 서버)
+- **배포**: Heroku (무료 티어)
 
-```json
-{
-  "name": "상품명",
-  "price": 10000,
-  "created_at": "2025-07-11T14:56:38.000Z"
-}
-```
-
-### 3. 새 상품 생성
+### 📊 데이터 모델 (간단 버전)
 
 ```
-POST /products
+User (사용자)
+- skin_type (피부타입: 건성/지성/복합성)
+- concerns (고민사항: 여드름/주름/미백 등)
+- age_group (연령대)
+
+Product (화장품)
+- name (제품명)
+- brand (브랜드)
+- category (카테고리: 세럼/크림/토너 등)
+- ingredients (성분 리스트)
+- effects (효과: 보습/미백/안티에이징 등)
+- price_range (가격대)
+
+Recommendation (추천)
+- user_id
+- product_id
+- score (매칭 점수)
 ```
 
-**요청 바디:**
+### 🔄 개발 일정 (1주일)
 
-```json
-{
-  "product": {
-    "name": "상품명",
-    "description": "상품 설명",
-    "price": 10000
-  }
-}
-```
+- **Day 1-2**: 데이터 모델 설계 및 마이그레이션
+- **Day 3-4**: 기본 CRUD API 개발
+- **Day 5-6**: 추천 알고리즘 구현
+- **Day 7**: MCP 서버 연동 및 테스트
 
-**성공 응답 (201 Created):**
+### 🎯 MVP 기능
 
-```json
-{
-  "id": 1,
-  "name": "상품명",
-  "description": "상품 설명",
-  "price": 10000,
-  "created_at": "2025-07-11T14:56:38.000Z",
-  "updated_at": "2025-07-11T14:56:38.000Z"
-}
-```
+1. 사용자 피부 정보 입력 API
+2. 화장품 목록 조회 API
+3. 간단한 추천 로직 (성분 기반 매칭)
+4. 추천 결과 반환 API
 
-**실패 응답 (422 Unprocessable Entity):**
+### 📝 추천 로직 (단순 버전)
 
-```json
-{
-  "errors": ["Name can't be blank"]
-}
-```
+1. 사용자 피부타입과 고민사항 분석
+2. 성분 데이터베이스에서 적합한 성분 찾기
+3. 해당 성분이 포함된 제품들 필터링
+4. 가격대, 브랜드 선호도 고려하여 순위 결정
 
-### 4. 상품 생성 폼 (새 상품 페이지)
+### 🔧 MCP 서버 API 엔드포인트
 
-```
-GET /products/new
-```
-
-## 🔧 기술 스택
-
-- **Framework**: Ruby on Rails 8.0
-- **Controller**: ActionController::API
-- **Database**: SQLite (개발 환경)
-- **Validation**: Active Record Validations
-
-## 📁 주요 파일 구조
-
-```
-app/
-├── controllers/
-│   └── products_controller.rb    # Product API 컨트롤러
-├── models/
-│   └── product.rb                # Product 모델
-├── services/
-│   └── products_service.rb       # Product 비즈니스 로직
-└── views/
-    └── products/                 # Product 뷰 템플릿
-        ├── index.html.erb
-        ├── new.html.erb
-        └── show.html.erb
-```
-
-## ⚠️ 주의사항
-
-1. **필수 필드**: `name` 필드는 반드시 입력해야 합니다.
-2. **API 컨트롤러**: `ActionController::API`를 상속받아 JSON 응답만 처리합니다.
-3. **트랜잭션**: ProductsService에서 데이터베이스 트랜잭션을 사용합니다.
-
-## 🚀 실행 방법
-
-1. 의존성 설치:
-
-```bash
-bundle install
-```
-
-2. 데이터베이스 설정:
-
-```bash
-bin/rails db:create
-bin/rails db:migrate
-```
-
-3. 서버 실행:
-
-```bash
-bin/rails server
-```
-
-서버는 기본적으로 `http://localhost:3000`에서 실행됩니다.
+- `POST /api/users` - 사용자 피부 정보 등록
+- `GET /api/products` - 화장품 목록 조회
+- `POST /api/recommendations` - 화장품 추천 요청
+- `GET /api/recommendations/:user_id` - 사용자별 추천 결과 조회
