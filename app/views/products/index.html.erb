@@ -1,11 +1,15 @@
-<h1>Products#index</h1>
+<h1>Products</h1>
 
 <div id="products">
+
+    <%= link_to "New product", new_product_path %>
+
     <% @products.each do |product| %>
         <div>
             <%= product.name %>
             <br>
-            <%= product.id %>    
+            <%= product.id %>
+            <%= link_to product.name, product %>
         </div>
     <% end %>
 </div>
