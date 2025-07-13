@@ -1,0 +1,116 @@
+# Ruby on Rails 프로젝트 Cursor Rules
+# "내 화장품을 찾아줘!" AI 기반 화장품 추천 서비스
+
+## 🎯 프로젝트 개요
+이 프로젝트는 사용자의 피부 상태와 고민사항을 분석하여 최적의 화장품을 추천해주는 AI 기반 서비스입니다.
+- Ruby on Rails 8.0 기반
+- MCP (Model Context Protocol) 서버 연동
+- SQLite (개발) / PostgreSQL (운영)
+- Heroku 배포
+
+## 📁 프로젝트 구조
+```
+app/
+├── controllers/          # API 컨트롤러
+├── models/              # 데이터 모델
+├── mcp/                 # MCP 서버 (새로 추가)
+│   ├── server.rb        # MCP 서버 메인 클래스
+│   ├── tools/           # MCP 도구들
+│   └── schemas/         # 스키마 정의
+├── services/            # 비즈니스 로직
+└── views/               # 뷰 템플릿
+```
+
+## 🏗 데이터 모델
+- **User**: skin_type, concerns, age_group
+- **Product**: name, brand, category, price_range
+- **Ingredient**: name, effect, safety_level
+- **ProductIngredient**: 제품-성분 다대다 관계
+- **Recommendation**: user_id, product_id, score
+
+## 🔧 코딩 스타일 가이드
+
+### Ruby/Rails 컨벤션
+- Ruby 3.x 문법 사용
+- Rails 8.0 컨벤션 준수
+- snake_case 사용 (변수, 메서드, 파일명)
+- PascalCase 사용 (클래스명)
+- 들여쓰기: 2칸 공백
+- 한 줄 최대 길이: 120자
+
+### 파일 구조
+- 컨트롤러: `app/controllers/`
+- 모델: `app/models/`
+- 서비스: `app/services/`
+- MCP 서버: `app/mcp/`
+- 테스트: `test/` 또는 `spec/`
+
+### 네이밍 컨벤션
+- 컨트롤러: `UsersController`, `ProductsController`
+- 모델: `User`, `Product`, `Ingredient`
+- 서비스: `RecommendationService`, `ProductService`
+- MCP 도구: `register_user_skin_info`, `get_cosmetic_recommendations`
+
+## 🤖 MCP 서버 개발 가이드
+
+### MCP 도구 구조
+```ruby
+# app/mcp/tools/recommendation_tool.rb
+class RecommendationTool
+  def self.register_user_skin_info(skin_type:, concerns:, age_group:)
+    # 사용자 피부 정보 등록 로직
+  end
+
+  def self.get_cosmetic_recommendations(user_id:, ingredient: nil)
+    # 화장품 추천 로직
+  end
+end
+```
+
+### 추천 알고리즘
+- 피부타입 매칭: 40점
+- 고민사항 매칭: 30점
+- 연령대 매칭: 20점
+- 가격대 매칭: 10점
+
+## 🧪 테스트 가이드
+- RSpec 사용 권장
+- FactoryBot으로 테스트 데이터 생성
+- 각 모델, 컨트롤러, 서비스에 대한 단위 테스트 작성
+- MCP 도구에 대한 통합 테스트 작성
+
+## 🔒 보안 가이드
+- Strong Parameters 사용
+- SQL Injection 방지
+- XSS 방지 (ERB 템플릿 사용 시)
+- API 인증/인가 구현
+
+## 📝 문서화
+- 모든 public 메서드에 YARD 문서 작성
+- API 엔드포인트에 대한 문서화
+- MCP 도구 사용법 문서화
+
+## 🚀 배포 가이드
+- Heroku 배포 환경
+- 환경변수 관리
+- 데이터베이스 마이그레이션
+- MCP 서버와 Rails 앱 동시 운영
+
+## ⚠️ 주의사항
+- 유사 성분 기능은 제외 (현재 단계에서)
+- 핵심 기능 위주로 개발
+- 코드 리뷰 필수
+- 테스트 커버리지 80% 이상 유지
+
+## 🎯 개발 우선순위
+1. 데이터 모델 완성 (User, Ingredient, ProductIngredient, Recommendation)
+2. API 컨트롤러 구현
+3. MCP 서버 기본 구조 구현
+4. 추천 알고리즘 구현
+5. 테스트 코드 작성
+6. CI/CD 파이프라인 구성
+
+## 📚 참고 자료
+- Rails Guides: https://guides.rubyonrails.org/
+- MCP Protocol: https://modelcontextprotocol.io/
+- Ruby Style Guide: https://github.com/rubocop/ruby-style-guide 
