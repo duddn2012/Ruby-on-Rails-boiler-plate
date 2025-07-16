@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "cosmetic-recommendation": {
+      "command": "ruby",
+      "args": ["D:/Project/boiler-plate/ruby-on-rails/Ruby-on-Rails-boiler-plate/bin/mcp_server"],
+      "env": {
+        "API_BASE_URL": "http://localhost:3000/api"
+      }
+    }
+  }
+} 

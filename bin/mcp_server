@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative '../app/mcp/server'
+
+puts "🎨 내 화장품을 찾아줘! MCP 서버를 시작합니다."
+puts "📍 서버 URL: http://localhost:3001"
+puts "🔧 MCP 프로토콜 준수"
+puts "=" * 50
+
+# MCP 서버 실행
+McpServer.run! 
